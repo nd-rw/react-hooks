@@ -2,7 +2,6 @@
 // http://localhost:3000/isolated/exercise/04.js
 
 import * as React from 'react'
-
 import {useLocalStorageState} from '../utils';
 
 function useStickyState(defaultValue, key) {
@@ -18,20 +17,10 @@ function useStickyState(defaultValue, key) {
   return [value, setValue];
 }
 
-function Board() {
-  // 🐨 squares is the state for this component. Add useState for squares
-  const localStorageValue = window.localStorage.getItem('squares');
-  console.log("🚀 ~ file: 04.js ~ line 22 ~ Board ~ localStorageValue", localStorageValue)
+function Board() { 
 
-  // check localStorage, if empty then set to array filled with null values
-  const [squares, setSquares] = React.useState(() => {
-    return localStorageValue !== null ? JSON.parse(localStorageValue) : Array(9).fill(null)
-  });
+  const [squares, setSquares] = useLocalStorageState('squares', [Array(9).fill(null)]);
 
-  // when "squares changes" update localStorage
-  React.useEffect(() => {
-    window.localStorage.setItem('squares', JSON.stringify(squares))
-  }, [squares])
 
   const nextValue = calculateNextValue(squares);
   const winner = calculateWinner(squares);
