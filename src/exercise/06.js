@@ -31,19 +31,24 @@ function PokemonInfo({ pokemonName }) {
         error: null,
       });
 
-      fetchPokemon(pokemonName).then(pokemonData => {
-        setState(
+      fetchPokemon(pokemonName)
+        .then(pokemonData => {
+          setState(
+            {
+              status: 'resolved',
+              pokemon: pokemonData,
+              error: null
+            }
+          )
+        })
+        .catch(error => setState(
           {
-            status: 'resolved',
-            pokemon: pokemonData,
-            error: null
+            status: 'rejected',
+            pokemon: null,
+            error: error,
           }
         )
-      }).catch(error => setState({
-        status: 'rejected',
-        pokemon: null,
-        error: error,
-      }))
+        )
     }
   }, [pokemonName])
 
